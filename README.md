@@ -6,9 +6,16 @@ Professor: Shiqing Ma
 
 ## Goals
 - [x] code coverage
-- [ ] Implement a basic fuzzer with random generation and UNIX signal Oracle 
-- [ ] Implement corpus for coverage test
+- [x] Implement a basic fuzzer with random generation and UNIX signal Oracle 
+- [x] Implement corpus for coverage test
 - [ ] Implement the heuristics generation with the corpus
+- [ ] Implement more robust mutator
 - [ ] Compare the performance of this implementation with the official AFL
-- [ ] Try to modify it to an in-memory fuzzer to break the UNIX fork bottleneck
+- [x] Try to modify it to an in-memory fuzzer to break the UNIX fork bottleneck
 - [ ] ~~Replace the heuristic generation with deep learning methods or something equivalent, compare the performance (number of bugs, times)~~ (Not quite possible, discrete problem)
+
+## Tips
+
+Using subprocess is significantly slower than directly calling exec
+
+Redirect the stdin to make the file input

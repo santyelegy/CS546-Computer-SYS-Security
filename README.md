@@ -8,7 +8,7 @@ Professor: Shiqing Ma
 - [x] code coverage
 - [x] Implement a basic fuzzer with random generation and UNIX signal Oracle 
 - [x] Implement corpus for coverage test
-- [ ] Implement the heuristics generation with the corpus
+- [x] Implement the heuristics generation with the corpus
 - [ ] Implement more robust mutator
 - [ ] Compare the performance of this implementation with the official AFL
 - [x] Try to modify it to an in-memory fuzzer to break the UNIX fork bottleneck
@@ -19,3 +19,21 @@ Professor: Shiqing Ma
 Using subprocess is significantly slower than directly calling exec
 
 Redirect the stdin to make the file input
+
+## AFL fuzz
+- [ ] calibration
+- [ ] trim L/S (important)
+- [ ] * performance score
+- [ ] bitflip L/S
+- [ ] * setup effect map
+- [ ] arith L/8
+- [ ] extras (interesting value)
+- [x] havoc 
+- [ ] splice
+
+arith L/8 - deterministic arithmetics. The fuzzer tries to subtract or add small integers to 8-, 16-, and 32-bit values. The stepover is always 8 bits.
+interest L/8 - deterministic value overwrite. The fuzzer has a list of known "interesting" 8-, 16-, and 32-bit values to try. The stepover is 8 bits.
+
+extras - deterministic injection of dictionary terms. This can be shown as "user" or "auto", depending on whether the fuzzer is using a user-supplied dictionary (-x) or an auto-created one. You will also see "over" or "insert", depending on whether the dictionary words overwrite existing data or are inserted by offsetting the remaining data to accommodate their length.
+
+havoc - a sort-of-fixed-length cycle with stacked random tweaks. The operations attempted during this stage include bit flips, overwrites with random and "interesting" integers, block deletion, block duplication, plus assorted dictionary-related operations (if a dictionary is supplied in the first place).

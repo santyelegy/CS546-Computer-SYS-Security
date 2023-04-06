@@ -23,12 +23,8 @@ Redirect the stdin to make the file input
 ## AFL fuzz
 - [x] trim L/S (important)
 - [ ] * performance score
-- [ ] bitflip L/S
-- [ ] * setup effect map
-- [ ] arith L/8
-- [ ] extras (interesting value)
+- [x] extras (interesting value)
 - [x] havoc 
-- [ ] splice
 
 arith L/8 - deterministic arithmetics. The fuzzer tries to subtract or add small integers to 8-, 16-, and 32-bit values. The stepover is always 8 bits.
 interest L/8 - deterministic value overwrite. The fuzzer has a list of known "interesting" 8-, 16-, and 32-bit values to try. The stepover is 8 bits.

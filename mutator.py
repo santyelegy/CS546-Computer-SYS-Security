@@ -2,6 +2,7 @@
 import random
 import string
 import ctypes
+import interesting_val
 #out_buf
 #in_buf
 
@@ -58,12 +59,14 @@ def mutate_one(buff:bytes,use_char:bool,round:int)->bytes:
         mutator=rand_byte
     # avoid index out of range
     avaliable_list=[13]
+    # TODO: before exhausted, only do bit flip, arith, interesting value
+    # TODO: after exhausted, do splice
     if len(buff)>0:
-        avaliable_list.extend([0,1,2,3,4,5,10,11,12,13])
+        avaliable_list.extend([0,1,4,5,10,11,12,13])
     elif len(buff)>2:
-        avaliable_list.extend([6,7,14])
+        avaliable_list.extend([2,6,7,14])
     elif len(buff)>4:
-        avaliable_list.extend([8,9])
+        avaliable_list.extend([3,8,9])
     case=random.choice(avaliable_list)
 
     # start the switch statement
@@ -75,13 +78,13 @@ def mutate_one(buff:bytes,use_char:bool,round:int)->bytes:
         buff[index]^=mask
     elif case==1:
         # set byte to interesting value
-        pass
+        buff=interesting_val.interesting_8(buff)
     elif case==2:
         # set word to interesting value
-        pass
+        buff=interesting_val.intersting_16(buff)
     elif case==3:
         # set double word to interesting value
-        pass
+        buff=interesting_val.intersting_32(buff)
     elif case==4:
         # subtract from byte (1,ARITH_MAX)
         index=random.randint(0,len(buff)-1)

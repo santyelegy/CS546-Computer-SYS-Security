@@ -153,7 +153,7 @@ def mutate_one(buff:bytes,use_char:bool,round:int)->bytes:
             buff=buff[:clone_to]+to_insert+buff[clone_to+length:]
     return bytes(buff)
 
-def mutate(buff:bytes,use_char:bool,round:int=5)->bytes:
+def mutate(buff:bytes,use_char:bool)->bytes:
     for i in range(random.randint(1,HAVOC_STACK_POW2)):
         buff=mutate_one(buff,use_char,i)
     return buff

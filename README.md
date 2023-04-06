@@ -21,8 +21,7 @@ Using subprocess is significantly slower than directly calling exec
 Redirect the stdin to make the file input
 
 ## AFL fuzz
-- [ ] calibration
-- [ ] trim L/S (important)
+- [x] trim L/S (important)
 - [ ] * performance score
 - [ ] bitflip L/S
 - [ ] * setup effect map

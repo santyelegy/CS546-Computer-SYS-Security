@@ -42,7 +42,7 @@ INTERESTING_16=[-32768,-129,128,255,256,512,1000,1024,4096,32767]
 
 INTERESTING_32=[-2147483648,-100663046,-32769,32768,65535,65536,100663045,2147483647]
 
-
+# replace a random byte in buff with a random interesting value
 def interesting_8(buff:bytearray)->bytearray:
     index=random.randint(0,len(buff)-1)
     buff[index]=bytearray(INTERESTING_8[random.randint(0,len(INTERESTING_8)-1)].to_bytes(1,byteorder='big', signed=True))[0]
@@ -54,6 +54,7 @@ def interesting_16(buff:bytearray)->bytearray:
     buff=buff[:index]+bytearray(INTERESTING_16[random.randint(0,len(INTERESTING_16)-1)].to_bytes(2,byteorder='big', signed=True))+buff[index+2:]
     return buff
 
+# buff is guaranteed to be at least 4 bytes long
 def interesting_32(buff:bytearray)->bytearray:
     index=random.randint(0,len(buff)-4)
     buff=buff[:index]+bytearray(INTERESTING_32[random.randint(0,len(INTERESTING_32)-1)].to_bytes(4,byteorder='big', signed=True))+buff[index+4:]

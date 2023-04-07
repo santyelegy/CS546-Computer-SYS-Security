@@ -1,40 +1,15 @@
-import sys
 from mutator import mutate
-import random
-from coverage import Coverage
-import io
-from seed import Seed
-import timeit
-
-## parameter to set
-program_dir="test/simple_test.py"
-initial_input=b""
-DEBUG=False
-round=10000
-TIMEOUT=15
+from coverage import find_coverage
+from trim_seeds import trim_seeds
+from performance_score import calculate_score,trim_with_performance_score
+from config import *
+from seed_scheduler import seed_scheduler
 
 ## the input are passed to the python file by stdin
 # seed_list is a list of Seed
 seed_list=[]
-pair_set=set()
-
-# find the coverage of the input
-def find_coverage(input:bytes,program_dir:str)->Seed:
-    coverage=Coverage()
-    sys.stdin = io.BytesIO(input)
-    try:
-        start = timeit.default_timer()
-        sys.settrace(coverage.tracer)
-        exec(open(program_dir).read())
-        sys.settrace(None)
-        stop = timeit.default_timer()
-        outcome = 'PASS'
-    except:
-        sys.settrace(None)
-        outcome = 'FAIL'
-        start=0
-        stop=TIMEOUT
-    return Seed(input,coverage.pair_set,outcome,stop-start)
+# key is the pair, value is the number of times the pair is executed
+pair_set={}
 
 # may have some problem if there are nested import, only using lineno will not work
 for i in range(round):
@@ -43,7 +18,7 @@ for i in range(round):
     if len(seed_list)==0:
         input=initial_input
     else:
-        buff=random.choice(seed_list).input
+        buff=seed_scheduler(seed_list,pair_set).input
         input=mutate(buff,True)
     ##Run Program
     new_seed=find_coverage(input,program_dir)
@@ -56,9 +31,19 @@ for i in range(round):
         proc.kill()
     """
     #Add new seed
-    pair_set=pair_set.union(new_seed.coverage_set)
+    for pair in new_seed.coverage_set:
+        if pair not in pair_set:
+            pair_set[pair]=0
+    # only count when the pair is added to the pair_set
     if set_len!=len(pair_set):
         seed_list.append(new_seed)
+        for pair in new_seed.coverage_set:
+            pair_set[pair]+=1
+    if i%PERFORMANCE_CYCLE==0:
+        calculate_score(seed_list)
+        seed_list=trim_with_performance_score(seed_list)
+    if i%TRIM_CYCLE==0:
+        seed_list=trim_seeds(seed_list,program_dir)
 
 print(pair_set)
 print(seed_list)

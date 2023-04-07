@@ -7,6 +7,7 @@ class Seed:
         self.time = time
         # give new seeds a high score to allow them run a bit longer
         self.performance_score = 10000
+        self.energy_score = 1
     
     def __str__(self) -> str:
         return self.input.__repr__()

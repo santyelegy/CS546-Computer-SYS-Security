@@ -8,8 +8,11 @@
 ###
 
 import sys
+from seed import Seed
+import timeit
+import io
+from config import TIMEOUT
 
-test_file="test.py"
 
 
 # may have some problem if there are nested import, only using lineno will not work
@@ -25,3 +28,21 @@ class Coverage:
             #self.pair_set.add(frame.f_code.co_name)
             self.former_line=lineno
         return self.tracer
+    
+# find the coverage of the input and run the code
+def find_coverage(input:bytes,program_dir:str)->Seed:
+    coverage=Coverage()
+    sys.stdin = io.BytesIO(input)
+    try:
+        start = timeit.default_timer()
+        sys.settrace(coverage.tracer)
+        exec(open(program_dir).read())
+        sys.settrace(None)
+        stop = timeit.default_timer()
+        outcome = 'PASS'
+    except:
+        sys.settrace(None)
+        outcome = 'FAIL'
+        start=0
+        stop=TIMEOUT
+    return Seed(input,coverage.pair_set,outcome,stop-start)

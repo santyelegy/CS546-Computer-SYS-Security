@@ -1,5 +1,5 @@
 from typing import List
-from runner import find_coverage
+from coverage import find_coverage
 from seed import Seed
 
 TRIM_START_STEPS=4

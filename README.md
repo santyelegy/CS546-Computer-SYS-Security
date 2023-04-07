@@ -12,8 +12,8 @@ Professor: Shiqing Ma
 - [x] Implement more robust mutator
 - [ ] Compare the performance of this implementation with the official AFL
 - [x] Try to modify it to an in-memory fuzzer to break the UNIX fork bottleneck
-- [ ] ~~Replace the heuristic generation with deep learning methods or something equivalent, compare the performance (number of bugs, times)~~ (Not quite possible, discrete problem)
-- [ ] Provide API for power scheduler of the seeds
+- [ ] ~~Replace the heuristic generation with deep learning methods or something equivalent, compare the performance (number of bugs, times)~~ (Not quite possible, the program to fuzz is discrete)
+- [x] Provide API for power scheduler of the seeds
 - [ ] Bug/ Coverage report generator
 
 ## Tips

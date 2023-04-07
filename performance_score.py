@@ -3,7 +3,8 @@ from seed import Seed
 
 # calculate the score for each seed base on execution time and coverage size
 # seeds with a lower execution time and a higher coverage size will have a higher score
-def calculate_score(seeds:List[Seed])->List[Seed]:
+# TODO: need to consider the size of the input
+def calculate_score(seeds:List[Seed])->None:
     # calculate the total execution time for all seeds
     total_time=0
     for seed in seeds:
@@ -44,4 +45,23 @@ def calculate_score(seeds:List[Seed])->List[Seed]:
             seed.performance_score*=0.5
         elif len(seed.coverage_set)*1.5<average_coverage_size:
             seed.performance_score*=0.75
-    return seeds
+
+
+# trim the seed list base on the coverage pair and performance score
+# for each coverage pair, only keep the seed with the highest performance score
+def trim_with_performance_score(seeds:List[Seed])->List[Seed]:
+    # sort the seed list base on performance score
+    seeds.sort(key=lambda x:x.performance_score,reverse=True)
+    # for each coverage pair, only keep the seed with the highest performance score
+    marked_pair=set()
+    new_seeds=[]        
+    for seed in seeds:
+        selected=False
+        for pair in seed.coverage_set:
+            if pair not in marked_pair:
+                marked_pair.add(pair)
+                selected=True
+        if selected:
+            new_seeds.append(seed)
+    return new_seeds
+    

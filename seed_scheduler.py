@@ -12,7 +12,7 @@ def seed_scheduler(seed_list:List[Seed],pair_set:dict)->Seed:
         energy=0
         for pair in seed.coverage_set:
             energy+=pair_set[pair]
-        seed.energy_score=1/(energy**5)
+        seed.energy_score=1/(energy**EXPONENT)
     # choose a seed from the seed_list based on the energy_score (possiblity)
     # need Python 3.6 or higher
     # random.choices(population, weights=None, *, cum_weights=None, k=1) Return a k sized list of elements chosen from the population with replacement

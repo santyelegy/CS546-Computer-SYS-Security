@@ -3,7 +3,35 @@
 Rutgers Spring 2023 COMP SYS SECURITY 16:198:546:01
 
 Professor: Shiqing Ma
+## Dependency
+```
+prettytable
+Python>=3.9
+```
+## Usage
+All of the arguments have default values, can directly run by `python runner.py`.
 
+The program to fuzz must take inputs from stdin, the fuzzer will generate bytes and feed them to the target program throug stdin.
+
+All arguments
+```
+usage: runner.py [-h] [-dir PROGRAM_DIR] [-i INITIAL_INPUT] [-r ROUND] [-t TIMEOUT] [-pc PERFORMANCE_CYCLE] [-tc TRIM_CYCLE]
+
+options:
+  -h, --help            show this help message and exit
+  -dir PROGRAM_DIR, --program_dir PROGRAM_DIR
+                        Program directory
+  -i INITIAL_INPUT, --initial_input INITIAL_INPUT
+                        Initial input
+  -r ROUND, --round ROUND
+                        Number of rounds
+  -t TIMEOUT, --TIMEOUT TIMEOUT
+                        Timeout for each run
+  -pc PERFORMANCE_CYCLE, --PERFORMANCE_CYCLE PERFORMANCE_CYCLE
+                        cycles to trim seeds base on performance score
+  -tc TRIM_CYCLE, --TRIM_CYCLE TRIM_CYCLE
+                        cycles to trim seeds by removing bytes
+```
 ## Goals
 - [x] code coverage
 - [x] Implement a basic fuzzer with random generation and UNIX signal Oracle 
@@ -12,17 +40,11 @@ Professor: Shiqing Ma
 - [x] Implement more robust mutator
 - [ ] Compare the performance of this implementation with the official AFL
 - [x] Try to modify it to an in-memory fuzzer to break the UNIX fork bottleneck
-- [ ] ~~Replace the heuristic generation with deep learning methods or something equivalent, compare the performance (number of bugs, times)~~ (Not quite possible, the program to fuzz is discrete)
+- [ ] ~~Replace the heuristic generation with deep learning methods or something equivalent, compare the performance (number of bugs, times)~~ (Not quite possible, need neural program smoothing)
 - [x] Provide API for power scheduler of the seeds
-- [ ] Bug/ Coverage report generator
+- [x] Bug/ Coverage report generator
 
-## Tips
-
-Using subprocess is significantly slower than directly calling exec
-
-Redirect the stdin to make the file input
-
-## AFL fuzz
+## AFL Fuzzer
 - [x] trim L/S (important)
 - [x] * performance score
 - [x] extras (interesting value)

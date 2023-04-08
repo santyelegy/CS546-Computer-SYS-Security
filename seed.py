@@ -1,6 +1,6 @@
 
 class Seed:
-    def __init__(self, input:bytes, coverage_set:set(), outcome:str, time:float ):
+    def __init__(self, input:bytes, coverage_set:set(), outcome:str, time:float,exception:Exception=None ):
         self.input = input
         self.coverage_set = coverage_set
         self.outcome = outcome
@@ -8,6 +8,7 @@ class Seed:
         # give new seeds a high score to allow them run a bit longer
         self.performance_score = 10000
         self.energy_score = 1
+        self.exception = exception
     
     def __str__(self) -> str:
         return self.input.__repr__()

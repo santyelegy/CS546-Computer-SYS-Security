@@ -11,7 +11,6 @@ import sys
 from seed import Seed
 import timeit
 import io
-from config import TIMEOUT
 
 
 
@@ -30,7 +29,8 @@ class Coverage:
         return self.tracer
     
 # find the coverage of the input and run the code
-def find_coverage(input:bytes,program_dir:str)->Seed:
+# TODO: add timeout
+def find_coverage(input:bytes,program_dir:str,time_out:float)->Seed:
     coverage=Coverage()
     sys.stdin = io.BytesIO(input)
     try:
@@ -40,9 +40,11 @@ def find_coverage(input:bytes,program_dir:str)->Seed:
         sys.settrace(None)
         stop = timeit.default_timer()
         outcome = 'PASS'
-    except:
+        exception=None
+    except Exception as e:
         sys.settrace(None)
         outcome = 'FAIL'
+        exception=e
         start=0
-        stop=TIMEOUT
-    return Seed(input,coverage.pair_set,outcome,stop-start)
+        stop=time_out
+    return Seed(input,coverage.pair_set,outcome,stop-start,exception)
